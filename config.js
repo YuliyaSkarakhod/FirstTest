@@ -2,7 +2,7 @@ const QmateService = require("@sap_oss/wdio-qmate-service");
 
 exports.config = {
 
-    baseUrl: "https://sapui5.hana.ondemand.com/test-resources/sap/suite/ui/generic/template/demokit/sample.manage.products.sepmra/test/index.html",
+    baseUrl: "https://us4.leverx.local:44302/sap/bc/ui2/flp?sap-client=100&sap-language=EN",
 
     specs: [
         [
