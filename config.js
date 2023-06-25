@@ -17,6 +17,17 @@ exports.config = {
         bail: true
     },
     
+    params: {
+        QmateCustomTimeout: 700000,
+    import: {
+        data: "./data/",
+        purchaseOrder:"./data/purchaseOrder.json"
+    },
+    export: {
+        purchaseOrder: "./data/purchaseOrder.json"
+    }
+},
+
     maxInstances: 3,
     
     services: [[QmateService],['chromedriver']],
@@ -31,15 +42,15 @@ exports.config = {
                 // "--log-level=3",
                 // "--no-sandbox",
                 // "--incognito",
-                // "--ignore-certificate-errors",
-                // "--window-size=1920,1200",
+                "--ignore-certificate-errors",
+                "--window-size=1920,1200",
                 // "--whitelisted-ips",
                 // "--disable-dev-shm-usage",
                 // "--headless",
                 // "--disable-gpu",
-                // "--disable-web-security",
-                // "--disable-infobars",
-                // "--disable-extensions",
+                "--disable-web-security",
+                "--disable-infobars",
+                "--disable-extensions",
                 // "--disable-logging",
                 // "--lang=en-US"
             ]
