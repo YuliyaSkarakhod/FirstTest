@@ -1,4 +1,5 @@
-require("dotenv").config()
+require("dotenv").config();
+var standardZPO = require("../data/standardZPO.json");
 describe("Create a new Purchase Order", function () {
 
     it("Step 01: Access the system and navigate to the Manage Purchase Orders app", async function () {
@@ -28,8 +29,7 @@ describe("Create a new Purchase Order", function () {
           "id": "*PurchaseOrderType::Field-comboBoxEdit"
         }   
       };
-      actualValue = "Standard Z-PO (ZNB)"
-      await ui5.userInteraction.selectComboBox(selector, actualValue);
+      await ui5.userInteraction.selectComboBox(selector, standardZPO.generalInformation.purchaseOrderType);
     });
 
     it("Step 05: Choose Supplier - 50000040", async function () {
@@ -40,8 +40,7 @@ describe("Create a new Purchase Order", function () {
           "id": "*GeneralInformationFacet1::Supplier::Field-input"
         }   
       };
-      valueToEnter = "50000040"
-      await ui5.userInteraction.clearAndFill(selector, valueToEnter);
+      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.supplier);
       await common.userInteraction.pressEnter();
     });
 
@@ -53,8 +52,7 @@ describe("Create a new Purchase Order", function () {
           "id": "*GeneralInformationFacet1::DocumentCurrency::Field-input"
         }   
       };
-      valueToEnter = "EUR"
-      await ui5.userInteraction.clearAndFill(selector, valueToEnter);
+      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.currency);
       await common.userInteraction.pressEnter();
     });
 
@@ -66,8 +64,7 @@ describe("Create a new Purchase Order", function () {
           "id": "*GeneralInformationFacet2::PurchasingGroup::Field-input"
         }   
       };
-      valueToEnter = "001"
-      await ui5.userInteraction.clearAndFill(selector, valueToEnter);
+      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.purchasingGroup);
       await common.userInteraction.pressEnter();
     });
 
@@ -79,8 +76,7 @@ describe("Create a new Purchase Order", function () {
           "id": "*GeneralInformationFacet2::PurchasingOrganization::Field-input"
         }   
       };
-      valueToEnter = "1010"
-      await ui5.userInteraction.clearAndFill(selector, valueToEnter);
+      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.purchasingOrganization);
       await common.userInteraction.pressEnter();
     });
 
@@ -92,8 +88,8 @@ describe("Create a new Purchase Order", function () {
           "id": "*GeneralInformationFacet2::CompanyCode::Field-input"
         }   
       };
-      valueToEnter = "1010"
-      await ui5.userInteraction.clearAndFill(selector, valueToEnter);
+      
+      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.companyCode);
       await common.userInteraction.pressEnter();
     });
 
@@ -106,7 +102,6 @@ describe("Create a new Purchase Order", function () {
           "id": "*ItemsFacet::Section-anchor"
         }   
       };
-    
       await ui5.userInteraction.click(selector);
     });
 
@@ -129,8 +124,7 @@ describe("Create a new Purchase Order", function () {
           "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00010'*`,
         }   
       };
-      actualValue = "Standard"
-      await ui5.userInteraction.selectComboBox(selector, actualValue);
+      await ui5.userInteraction.selectComboBox(selector, standardZPO.items[00010].itemCategory);
     });
 
     
@@ -144,9 +138,7 @@ describe("Create a new Purchase Order", function () {
             "path": "ManufacturerMaterial"}]
         }   
       };
-
-    const valueToEnter = "WM-D03"
-    await ui5.userInteraction.clearAndFill(selector, valueToEnter);
+    await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].Material);
     await common.userInteraction.pressEnter();
   });
 
@@ -160,9 +152,7 @@ describe("Create a new Purchase Order", function () {
           "path": "Plant"}]
       }   
     };
-  
-  const valueToEnter = "1010"
-  await ui5.userInteraction.clearAndFill(selector, valueToEnter);
+  await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].plant);
   await common.userInteraction.pressEnter();
   });
 
@@ -176,13 +166,89 @@ describe("Create a new Purchase Order", function () {
           "path": "OrderQuantity"}]
       }   
     };
-
-  const valueToEnter = "15"
-  await ui5.userInteraction.clearAndFill(selector, valueToEnter);
+  await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].orderQuantity);
   await common.userInteraction.pressEnter();
 
 });
 
+// add second Item
+
+it("Step 10: Navigate to the Items tab", async function () {
+  const selector = {
+    "elementProperties": {
+      "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
+      "metadata": "sap.m.Button",
+      "id": "*ItemsFacet::Section-anchor"
+    }   
+  };
+  await ui5.userInteraction.click(selector);
+});
+
+it("Step 11: Add Purchase Order Item", async function () {
+  const selector = {
+    "elementProperties": {
+      "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
+      "metadata": "sap.m.Button",
+      "id": "*addEntry"
+    }   
+  };
+  await ui5.userInteraction.click(selector);
+});
+
+    it("Step 12: Select Item Category - Standard", async function () {
+      const selector = {
+        "elementProperties": {
+          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
+          "metadata": "sap.m.ComboBox",
+          "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00020'*`,
+        }   
+      };
+      await ui5.userInteraction.selectComboBox(selector, standardZPO.items[00010].itemCategory);
+    });
+
+    
+    it("Step 13: Specify Material - WM-D03", async function () {
+      const selector = {
+        "elementProperties": {
+          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
+          "metadata": "sap.m.Input",
+          "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00020'*`,
+          "value": [{
+            "path": "ManufacturerMaterial"}]
+        }   
+      };
+    await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].Material);
+    await common.userInteraction.pressEnter();
+  });
+
+  it("Step 14: Specify Plant - 1010", async function () {
+    const selector = {
+      "elementProperties": {
+        "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
+        "metadata": "sap.m.Input",
+        "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00020'*`,
+        "value": [{
+          "path": "Plant"}]
+      }   
+    };
+  await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].plant);
+  await common.userInteraction.pressEnter();
+  });
+
+  it("Step 15: Specify Quantity - 15", async function () {
+    const selector = {
+      "elementProperties": {
+        "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
+        "metadata": "sap.m.Input",
+        "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00020'*`,
+        "value": [{
+          "path": "OrderQuantity"}]
+      }   
+    };
+  await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].orderQuantity);
+  await common.userInteraction.pressEnter();
+
+});
 
 it("Step 16: Click Create Button", async function () {
   const selector = {
