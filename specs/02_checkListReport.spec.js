@@ -32,6 +32,7 @@ describe("Find the newly created Purchase Order", function () {
         elementsData.button.goOnLR.metadata,
         elementsData.button.goOnLR.id
             );
+            await browser.pause(3000);
         });  
 
     it("Step 05: Open the newly created PO", async function () {
@@ -41,15 +42,6 @@ describe("Find the newly created Purchase Order", function () {
         await listReportPage.openPO (
         elementsData.button.selectPO.metadata
         )
-      
-        // const selector = {
-        //   "elementProperties": {
-        //     "viewName": "sap.suite.ui.generic.template.ListReport.view.ListReport",
-        //     "metadata": "sap.ui.core.Icon",
-        //     "bindingContextPath": `*${references.purchaseOrderNumber}*`
-        //   }   
-        // };
-        // await ui5.userInteraction.click(selector);
       });
 
       it("Step 06: Validate PO", async function () { 
@@ -63,7 +55,7 @@ describe("Find the newly created Purchase Order", function () {
         const references = browser.config.params.import.data["references"];
         common.assertion.expectDefined(references);
         await ui5.assertion.expectAttributeToBe(selector, "text", references.purchaseOrderNumber);
-        await browser.pause(3000)
+        await util.browser.sleep (3000);
       });
   
     
