@@ -1,264 +1,152 @@
 require("dotenv").config();
 var standardZPO = require("../data/standardZPO.json");
+var objectPage = require("../module/objectPage.js");
+var elementsData = require("../data/elementsData.json");
+var generalData = require("../data/generalData.json");
+var listReportPage = require("../module/listReportPage.js");
+
 describe("Create a new Purchase Order", function () {
 
     it("Step 01: Access the system and navigate to the Manage Purchase Orders app", async function () {
-      await ui5.navigation.navigateToApplication("PurchaseOrder-manage");
+      await ui5.navigation.navigateToApplication(generalData.appName);
     });
 
     it("Step 02: App login", async function () {
       await ui5.session.login(process.env.USER, process.env.PASSWORD);
     });
 
-    it("Step 03: Click Create", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ListReport.view.ListReport",
-          "metadata": "sap.m.Button",
-          "id": "*addEntry"
-        }   
-      };
-      await ui5.userInteraction.click(selector);
-    });
+    it("Step 03: Click Create on the list report page", async function () {
+    await listReportPage.clickLR (
+      elementsData.button.createFromLR.metadata,
+      elementsData.button.createFromLR.id
+  );
+});
 
     it("Step 04: Select Purchase Order Type", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.ComboBox",
-          "id": "*PurchaseOrderType::Field-comboBoxEdit"
-        }   
-      };
-      await ui5.userInteraction.selectComboBox(selector, standardZPO.generalInformation.purchaseOrderType);
+      await objectPage.fillInFields(
+        elementsData.combobox.purchaseOrderType.type,
+        elementsData.combobox.purchaseOrderType.metadata,
+        elementsData.combobox.purchaseOrderType.id,
+        standardZPO.generalInformation.purchaseOrderType
+      );
     });
 
     it("Step 05: Choose Supplier - 50000040", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.Input",
-          "id": "*GeneralInformationFacet1::Supplier::Field-input"
-        }   
-      };
-      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.supplier);
-      await common.userInteraction.pressEnter();
+      await objectPage.fillInFields(
+        elementsData.field.supplier.type,
+        elementsData.field.supplier.metadata,
+        elementsData.field.supplier.id,
+        standardZPO.generalInformation.supplier
+        );
     });
 
     it("Step 06: Choose Currency - EUR", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.Input",
-          "id": "*GeneralInformationFacet1::DocumentCurrency::Field-input"
-        }   
-      };
-      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.currency);
-      await common.userInteraction.pressEnter();
+      await objectPage.fillInFields(
+        elementsData.field.currency.type,
+        elementsData.field.currency.metadata,
+        elementsData.field.currency.id,
+        standardZPO.generalInformation.currency
+        );
+        await common.userInteraction.pressEnter();
     });
 
     it("Step 07: Choose Purchasing Groupe - 001", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.Input",
-          "id": "*GeneralInformationFacet2::PurchasingGroup::Field-input"
-        }   
-      };
-      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.purchasingGroup);
-      await common.userInteraction.pressEnter();
+      await objectPage.fillInFields(
+        elementsData.field.purchasingGroup.type,
+        elementsData.field.purchasingGroup.metadata,
+        elementsData.field.purchasingGroup.id,
+        standardZPO.generalInformation.purchasingGroup
+        );
+        await common.userInteraction.pressEnter();
     });
 
     it("Step 08: Choose Purchasing Organization - 1010", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.Input",
-          "id": "*GeneralInformationFacet2::PurchasingOrganization::Field-input"
-        }   
-      };
-      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.purchasingOrganization);
-      await common.userInteraction.pressEnter();
+      await objectPage.fillInFields(
+        elementsData.field.purchasingOrganization.type,
+        elementsData.field.purchasingOrganization.metadata,
+        elementsData.field.purchasingOrganization.id,
+        standardZPO.generalInformation.purchasingOrganization
+        );
+        await common.userInteraction.pressEnter();
     });
 
     it("Step 09: Choose Company Code - 1010", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.Input",
-          "id": "*GeneralInformationFacet2::CompanyCode::Field-input"
-        }   
-      };
-      
-      await ui5.userInteraction.clearAndFill(selector, standardZPO.generalInformation.companyCode);
-      await common.userInteraction.pressEnter();
+      await objectPage.fillInFields(
+        elementsData.field.companyCode.type,
+        elementsData.field.companyCode.metadata,
+        elementsData.field.companyCode.id,
+        standardZPO.generalInformation.companyCode
+        );
+        await common.userInteraction.pressEnter();
     });
-
     
     it("Step 10: Navigate to the Items tab", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.Button",
-          "id": "*ItemsFacet::Section-anchor"
-        }   
-      };
-      await ui5.userInteraction.click(selector);
+      await objectPage.navigateToItems(
+        elementsData.button.items.metadata,
+        elementsData.button.items.id);
     });
 
-    it("Step 11: Add Purchase Order Item", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.Button",
-          "id": "*addEntry"
-        }   
-      };
-      await ui5.userInteraction.click(selector);
-    });
 
-    it("Step 12: Select Item Category - Standard", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.ComboBox",
-          "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00010'*`,
-        }   
-      };
-      await ui5.userInteraction.selectComboBox(selector, standardZPO.items[00010].itemCategory);
-    });
+    var itemArr = standardZPO.items
+    for (let [itemIndex, itemValue] of itemArr.entries()) {
 
+   it("Step 11: Add PO Item", async function () {
+      await objectPage.addItem (
+        elementsData.button.createNewItem.metadata,
+        elementsData.button.createNewItem.id
+            );
+        });   
     
-    it("Step 13: Specify Material - WM-D03", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.Input",
-          "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00010'*`,
-          "value": [{
-            "path": "ManufacturerMaterial"}]
-        }   
-      };
-    await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].Material);
-    await common.userInteraction.pressEnter();
-  });
 
-  it("Step 14: Specify Plant - 1010", async function () {
-    const selector = {
-      "elementProperties": {
-        "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-        "metadata": "sap.m.Input",
-        "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00010'*`,
-        "value": [{
-          "path": "Plant"}]
-      }   
-    };
-  await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].plant);
-  await common.userInteraction.pressEnter();
-  });
+      it("Step 12: Select Item Category - Standard", async function () {
+        await objectPage.fillInFields (
+          elementsData.field.itemCategory.type,
+          elementsData.field.itemCategory.metadata,
+          elementsData.field.itemCategory.path,
+          itemValue.itemCategory,
+          itemValue.item
+        );
+      });
 
-  it("Step 15: Specify Quantity - 15", async function () {
-    const selector = {
-      "elementProperties": {
-        "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-        "metadata": "sap.m.Input",
-        "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00010'*`,
-        "value": [{
-          "path": "OrderQuantity"}]
-      }   
-    };
-  await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].orderQuantity);
-  await common.userInteraction.pressEnter();
+      it("Step 13: Specify Material - WM-D03", async function () {
+        await objectPage.fillInFields (
+          elementsData.field.Material.type,
+          elementsData.field.Material.metadata,
+          elementsData.field.Material.path,
+          itemValue.Material,
+          itemValue.item
+        );
+        await common.userInteraction.pressEnter();
+      });
 
-});
+      it("Step 14: Specify Plant - 1010", async function () {
+        await objectPage.fillInFields (
+          elementsData.field.plant.type,
+          elementsData.field.plant.metadata,
+          elementsData.field.plant.path,
+          itemValue.plant,
+          itemValue.item
+        );
+        await common.userInteraction.pressEnter();
+      });
 
-// add second Item
+      it("Step 15: Specify Quantity - 15", async function () {
+        await objectPage.fillInFields (
+          elementsData.field.orderQuantity.type,
+          elementsData.field.orderQuantity.metadata,
+          elementsData.field.orderQuantity.path,
+          itemValue.orderQuantity,
+          itemValue.item
+        );
+        await common.userInteraction.pressEnter();
+      });
 
-it("Step 10: Navigate to the Items tab", async function () {
-  const selector = {
-    "elementProperties": {
-      "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-      "metadata": "sap.m.Button",
-      "id": "*ItemsFacet::Section-anchor"
-    }   
-  };
-  await ui5.userInteraction.click(selector);
-});
-
-it("Step 11: Add Purchase Order Item", async function () {
-  const selector = {
-    "elementProperties": {
-      "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-      "metadata": "sap.m.Button",
-      "id": "*addEntry"
-    }   
-  };
-  await ui5.userInteraction.click(selector);
-});
-
-    it("Step 12: Select Item Category - Standard", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.ComboBox",
-          "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00020'*`,
-        }   
-      };
-      await ui5.userInteraction.selectComboBox(selector, standardZPO.items[00010].itemCategory);
-    });
-
-    
-    it("Step 13: Specify Material - WM-D03", async function () {
-      const selector = {
-        "elementProperties": {
-          "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-          "metadata": "sap.m.Input",
-          "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00020'*`,
-          "value": [{
-            "path": "ManufacturerMaterial"}]
-        }   
-      };
-    await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].Material);
-    await common.userInteraction.pressEnter();
-  });
-
-  it("Step 14: Specify Plant - 1010", async function () {
-    const selector = {
-      "elementProperties": {
-        "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-        "metadata": "sap.m.Input",
-        "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00020'*`,
-        "value": [{
-          "path": "Plant"}]
-      }   
-    };
-  await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].plant);
-  await common.userInteraction.pressEnter();
-  });
-
-  it("Step 15: Specify Quantity - 15", async function () {
-    const selector = {
-      "elementProperties": {
-        "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-        "metadata": "sap.m.Input",
-        "bindingContextPath": `/C_PurchaseOrderItemTP*PurchaseOrder=''*PurchaseOrderItem='00020'*`,
-        "value": [{
-          "path": "OrderQuantity"}]
-      }   
-    };
-  await ui5.userInteraction.clearAndFill(selector, standardZPO.items[00010].orderQuantity);
-  await common.userInteraction.pressEnter();
-
-});
+    }
 
 it("Step 16: Click Create Button", async function () {
-  const selector = {
-    "elementProperties": {
-      "viewName": "sap.suite.ui.generic.template.ObjectPage.view.Details",
-      "metadata": "sap.m.Button",
-      "id": "*activate"
-    }   
-  };
-  await ui5.userInteraction.click(selector);
+  await objectPage.clickOP (
+    elementsData.button.createFromOP.metadata,
+    elementsData.button.createFromOP.id);
 });
 
 it("Step 17: Get ID of the newly created PO", async function () {
@@ -277,14 +165,12 @@ it("Step 17: Get ID of the newly created PO", async function () {
   };
   browser.config.params.export.purchaseOrder = userData;
 
-  // use the reference file
   const references = browser.config.params.import.data["references"];
   references.purchaseOrderNumber = purchaseOrderID;
 });
 
 it("Step 18: Logging Out", async function () {
   await ui5.session.logout();
-  await browser.pause(3000)
 });
 
   });

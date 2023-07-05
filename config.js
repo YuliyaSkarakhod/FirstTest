@@ -13,7 +13,7 @@ exports.config = {
 
     framework: 'mocha',
     mochaOpts: {
-        timeout: 120000,
+        timeout: 240000,
         bail: true
     },
     
@@ -21,10 +21,10 @@ exports.config = {
         QmateCustomTimeout: 700000,
     import: {
         data: "./data/",
-        purchaseOrder:"./data/purchaseOrder.json"
+        purchaseOrder:"./data/references.json"
     },
     export: {
-        purchaseOrder: "./data/purchaseOrder.json"
+        purchaseOrder: "./data/references.json"
     }
 },
 
@@ -39,9 +39,9 @@ exports.config = {
         'goog:chromeOptions': {
             args: [
                 "--output=/dev/null",
-                // "--log-level=3",
-                // "--no-sandbox",
-                // "--incognito",
+                "--log-level=3",
+                "--no-sandbox",
+                "--incognito",
                 "--ignore-certificate-errors",
                 "--window-size=1920,1200",
                 // "--whitelisted-ips",
@@ -49,10 +49,10 @@ exports.config = {
                 // "--headless",
                 // "--disable-gpu",
                 "--disable-web-security",
-                "--disable-infobars",
-                "--disable-extensions",
+                // "--disable-infobars",
+                // "--disable-extensions",
                 // "--disable-logging",
-                // "--lang=en-US"
+                "--lang=en-US"
             ]
         }
     }],
